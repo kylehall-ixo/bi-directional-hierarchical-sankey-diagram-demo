@@ -34,23 +34,13 @@ var OPACITY = {
   LAYOUT_INTERATIONS = 32,
   REFRESH_INTERVAL = 7000;
 
-var formatNumber = function (d) {
-  var numberFormat = d3.format(",.0f"); // zero decimal places
-  return "£" + numberFormat(d);
+// Used when temporarily disabling user interractions to allow animations to complete
+var disableUserInterractions = function (time) {
+  isTransitioning = true;
+  setTimeout(function () {
+    isTransitioning = false;
+  }, time);
 },
-
-  formatFlow = function (d) {
-    var flowFormat = d3.format(",.0f"); // zero decimal places with sign
-    return "£" + flowFormat(Math.abs(d)) + (d < 0 ? " CR" : " DR");
-  },
-
-  // Used when temporarily disabling user interractions to allow animations to complete
-  disableUserInterractions = function (time) {
-    isTransitioning = true;
-    setTimeout(function () {
-      isTransitioning = false;
-    }, time);
-  },
 
   hideTooltip = function () {
     return tooltip.transition()
@@ -258,10 +248,14 @@ function update() {
   linkEnter.on('mouseenter', function (d) {
     if (!isTransitioning) {
       showTooltip().select(".value").text(function () {
+        console.log(`source name: ${d.source.name}`)
+        const sourceTitle = d.source.name.indexOf("-") >= 0 ? d.source.name.split("-")[0] : d.source.name
+        const targetTitle = d.target.name.indexOf("-") >= 0 ? d.target.name.split("-")[0] : d.target.name
+
         if (d.direction > 0) {
-          return d.source.name + " → " + d.target.name + "\n" + formatNumber(d.value);
+          return sourceTitle + " → " + targetTitle;
         }
-        return d.target.name + " ← " + d.source.name + "\n" + formatNumber(d.value);
+        return targetTitle + " ← " + sourceTitle;
       });
 
       d3.select(this)
@@ -362,7 +356,7 @@ function update() {
       return d3.rgb(colorScale(d.type.replace(/ .*/, ""))).darker(0.1);
     })
     .style("stroke-WIDTH", "1px")
-    .attr("height", function (d) { return d.height; })
+    .attr("height", function (d) { return d.height * 2; })
     .attr("width", biHiSankey.nodeWidth());
 
   node.on("mouseenter", function (g) {
@@ -388,8 +382,9 @@ function update() {
         .duration(TRANSITION_DURATION)
         .style("opacity", 1).select(".value")
         .text(function () {
+          const title = g.name.indexOf("-") >= 0 ? g.name.split("-")[0] : g.name
           var additionalInstructions = g.children.length ? "\n(Double click to expand)" : "";
-          return g.name + additionalInstructions;
+          return title + additionalInstructions;
         });
     }
   });
@@ -557,11 +552,14 @@ const exampleLinks = [
   { "source": 34, "target": 6, "value": Math.floor(Math.random() * 700) },
   { "source": 32, "target": 10, "value": Math.floor(Math.random() * 100) },
   { "source": 32, "target": 9, "value": Math.floor(Math.random() * 100) },
+  { "source": 9, "target": 27, "value": Math.floor(Math.random() * 100) },
   { "source": 3, "target": 21, "value": Math.floor(Math.random() * 100) },
   { "source": 17, "target": 8, "value": Math.floor(Math.random() * 100) },
   { "source": 17, "target": 6, "value": Math.floor(Math.random() * 600) },
+  { "source": 6, "target": 23, "value": Math.floor(Math.random() * 600) },
   { "source": 17, "target": 4, "value": Math.floor(Math.random() * 800) },
   { "source": 29, "target": 2, "value": Math.floor(Math.random() * 100) },
+  { "source": 2, "target": 22, "value": Math.floor(Math.random() * 100) },
   { "source": 4, "target": 24, "value": Math.floor(Math.random() * 690) },
   { "source": 10, "target": 24, "value": Math.floor(Math.random() * 100) },
   { "source": 15, "target": 24, "value": Math.floor(Math.random() * 100) },
@@ -569,6 +567,7 @@ const exampleLinks = [
   { "source": 22, "target": 24, "value": Math.floor(Math.random() * 100) },
   { "source": 3, "target": 28, "value": Math.floor(Math.random() * 800) },
   { "source": 5, "target": 25, "value": Math.floor(Math.random() * 100) },
+  { "source": 33, "target": 5, "value": Math.floor(Math.random() * 100) },
   { "source": 25, "target": 28, "value": Math.floor(Math.random() * 100) },
   { "source": 10, "target": 21, "value": Math.floor(Math.random() * 900) },
   { "source": 14, "target": 23, "value": Math.floor(Math.random() * 100) },
@@ -580,6 +579,7 @@ const exampleLinks = [
   { "source": "eq", "target": 1, "value": Math.floor(Math.random() * 100) },
   { "source": "eq", "target": 4, "value": Math.floor(Math.random() * 900) },
   { "source": "eq", "target": 7, "value": Math.floor(Math.random() * 200) },
+  { "source": 7, "target": 27, "value": Math.floor(Math.random() * 200) },
   { "source": 1, "target": 21, "value": Math.floor(Math.random() * 100) },
   { "source": 1, "target": 24, "value": Math.floor(Math.random() * 350) },
 ]
