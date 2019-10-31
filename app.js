@@ -389,7 +389,7 @@ function update() {
         .style("opacity", 1).select(".value")
         .text(function () {
           var additionalInstructions = g.children.length ? "\n(Double click to expand)" : "";
-          return g.name + "\nNet flow: " + formatFlow(g.netFlow) + additionalInstructions;
+          return g.name + additionalInstructions;
         });
     }
   });
@@ -418,7 +418,10 @@ function update() {
     .attr("dy", ".35em")
     .attr("text-anchor", "end")
     .attr("transform", null)
-    .text(function (d) { return d.name; })
+    .text(function (d) {
+      const title = d.name.indexOf("-") >= 0 ? d.name.split("-")[0] : d.name
+      return title
+    })
     .filter(function (d) { return d.x < WIDTH / 2; })
     .attr("x", 6 + biHiSankey.nodeWidth())
     .attr("text-anchor", "start");
@@ -502,41 +505,41 @@ function update() {
 }
 
 var exampleNodes = [
-  { "type": "Asset", "id": "a", "parent": null, "name": "Assets" },
-  { "type": "Asset", "id": 1, "parent": "a", "number": "101", "name": "Cash" },
-  { "type": "Asset", "id": 2, "parent": "a", "number": "120", "name": "Accounts Receivable" },
-  { "type": "Asset", "id": 3, "parent": "a", "number": "140", "name": "Merchandise Inventory" },
-  { "type": "Asset", "id": 4, "parent": "a", "number": "150", "name": "Supplies" },
-  { "type": "Asset", "id": 5, "parent": "a", "number": "160", "name": "Prepaid Insurance" },
-  { "type": "Asset", "id": 6, "parent": "a", "number": "170", "name": "Land" },
-  { "type": "Asset", "id": 7, "parent": "a", "number": "175", "name": "Buildings" },
-  { "type": "Asset", "id": 8, "parent": "a", "number": "178", "name": "Acc. Depreciation Buildings" },
-  { "type": "Asset", "id": 9, "parent": "a", "number": "180", "name": "Equipment" },
-  { "type": "Asset", "id": 10, "parent": "a", "number": "188", "name": "Acc. Depreciation Equipment" },
-  { "type": "Liability", "id": "l", "parent": null, "number": "l", "name": "Liabilities" },
-  { "type": "Liability", "id": 11, "parent": "l", "number": "210", "name": "Notes Payable" },
-  { "type": "Liability", "id": 12, "parent": "l", "number": "215", "name": "Accounts Payable" },
-  { "type": "Liability", "id": 13, "parent": "l", "number": "220", "name": "Wages Payable" },
-  { "type": "Liability", "id": 14, "parent": "l", "number": "230", "name": "Interest Payable" },
-  { "type": "Liability", "id": 15, "parent": "l", "number": "240", "name": "Unearned Revenues" },
-  { "type": "Liability", "id": 16, "parent": "l", "number": "250", "name": "Mortage Loan Payable" },
-  { "type": "Equity", "id": "eq", "parent": null, "number": "eq", "name": "Equity" },
-  { "type": "Revenue", "id": "r", "parent": null, "number": "r", "name": "Revenues" },
-  { "type": "Revenue", "id": "or", "parent": "r", "number": "", "name": "Operating Revenue" },
-  { "type": "Revenue", "id": 17, "parent": "or", "number": "310", "name": "Service Revenues" },
-  { "type": "Revenue", "id": "nor", "parent": "r", "number": "", "name": "Non-Operating Revenue" },
-  { "type": "Revenue", "id": 18, "parent": "nor", "number": "810", "name": "Interest Revenues" },
-  { "type": "Revenue", "id": 19, "parent": "nor", "number": "910", "name": "Asset Sale Gain" },
-  { "type": "Revenue", "id": 20, "parent": "nor", "number": "960", "name": "Asset Sale Loss" },
-  { "type": "Expense", "id": "ex", "parent": null, "number": "ex", "name": "Expenses" },
-  { "type": "Expense", "id": 21, "parent": "ex", "number": "500", "name": "Salaries Expense" },
-  { "type": "Expense", "id": 22, "parent": "ex", "number": "510", "name": "Wages Expense" },
-  { "type": "Expense", "id": 23, "parent": "ex", "number": "540", "name": "Supplies Expense" },
-  { "type": "Expense", "id": 24, "parent": "ex", "number": "560", "name": "Rent Expense" },
-  { "type": "Expense", "id": 25, "parent": "ex", "number": "570", "name": "Utilities Expense" },
-  { "type": "Expense", "id": 26, "parent": "ex", "number": "576", "name": "Telephone Expense" },
-  { "type": "Expense", "id": 27, "parent": "ex", "number": "610", "name": "Advertising Expense" },
-  { "type": "Expense", "id": 28, "parent": "ex", "number": "750", "name": "Depreciation Expense" }
+  { "type": "Schulte Farms", "id": "a", "parent": null, "name": "Schulte Farms" },
+  { "type": "Schulte Farms", "id": 1, "parent": "a", "number": "101", "name": "Feeder Pig Mixed-1" },
+  { "type": "Schulte Farms", "id": 2, "parent": "a", "number": "120", "name": "Feeder Pig Mixed-2" },
+  { "type": "Schulte Farms", "id": 3, "parent": "a", "number": "140", "name": "Feeder Pig Mixed-3" },
+  { "type": "Schulte Farms", "id": 4, "parent": "a", "number": "150", "name": "Feeder Pig Mixed-4" },
+  { "type": "Schulte Farms", "id": 5, "parent": "a", "number": "160", "name": "Feeder Pig Mixed-5" },
+  { "type": "Schulte Farms", "id": 6, "parent": "a", "number": "170", "name": "Feeder Pig Mixed-6" },
+  { "type": "Schulte Farms", "id": 7, "parent": "a", "number": "175", "name": "Feeder Pig Mixed-7" },
+  { "type": "Schulte Farms", "id": 8, "parent": "a", "number": "178", "name": "Feeder Pig Mixed-8" },
+  { "type": "Schulte Farms", "id": 9, "parent": "a", "number": "180", "name": "Feeder Pig Mixed-9" },
+  { "type": "Schulte Farms", "id": 10, "parent": "a", "number": "188", "name": "Feeder Pig Mixed-10" },
+  { "type": "Sandy River Farms", "id": "l", "parent": null, "number": "l", "name": "Sandy River Farms" },
+  { "type": "Sandy River Farms", "id": 11, "parent": "l", "number": "210", "name": "Feeder Pig Mixed-11" },
+  { "type": "Sandy River Farms", "id": 12, "parent": "l", "number": "215", "name": "Feeder Pig Mixed-12" },
+  { "type": "Sandy River Farms", "id": 13, "parent": "l", "number": "220", "name": "Feeder Pig Mixed-13" },
+  { "type": "Sandy River Farms", "id": 14, "parent": "l", "number": "230", "name": "Feeder Pig Mixed-14" },
+  { "type": "Sandy River Farms", "id": 15, "parent": "l", "number": "240", "name": "Feeder Pig Mixed-15" },
+  { "type": "Sandy River Farms", "id": 16, "parent": "l", "number": "250", "name": "Feeder Pig Mixed-16" },
+  { "type": "Nathan Hill", "id": "eq", "parent": null, "number": "eq", "name": "Nathan Hill" },
+  { "type": "Balloun Farms", "id": "r", "parent": null, "number": "r", "name": "Balloun Farms" },
+  { "type": "Balloun Farms", "id": "or", "parent": "r", "number": "", "name": "Feeder Pig Mixed-or" },
+  { "type": "Balloun Farms", "id": 17, "parent": "or", "number": "310", "name": "Feeder Pig Mixed-17" },
+  { "type": "Balloun Farms", "id": "nor", "parent": "r", "number": "", "name": "Feeder Pig Mixed-nor" },
+  { "type": "Balloun Farms", "id": 18, "parent": "nor", "number": "810", "name": "Feeder Pig Mixed-18" },
+  { "type": "Balloun Farms", "id": 19, "parent": "nor", "number": "910", "name": "Feeder Pig Mixed-19" },
+  { "type": "Balloun Farms", "id": 20, "parent": "nor", "number": "960", "name": "Feeder Pig Mixed-20" },
+  { "type": "Price Farms", "id": "ex", "parent": null, "number": "ex", "name": "Price Farms" },
+  { "type": "Price Farms", "id": 21, "parent": "ex", "number": "500", "name": "Feeder Pig Mixed-21" },
+  { "type": "Price Farms", "id": 22, "parent": "ex", "number": "510", "name": "Feeder Pig Mixed-22" },
+  { "type": "Price Farms", "id": 23, "parent": "ex", "number": "540", "name": "Feeder Pig Mixed-23" },
+  { "type": "Price Farms", "id": 24, "parent": "ex", "number": "560", "name": "Feeder Pig Mixed-24" },
+  { "type": "Price Farms", "id": 25, "parent": "ex", "number": "570", "name": "Feeder Pig Mixed-25" },
+  { "type": "Price Farms", "id": 26, "parent": "ex", "number": "576", "name": "Feeder Pig Mixed-26" },
+  { "type": "Price Farms", "id": 27, "parent": "ex", "number": "610", "name": "Feeder Pig Mixed-27" },
+  { "type": "Price Farms", "id": 28, "parent": "ex", "number": "750", "name": "Feeder Pig Mixed-28" }
 ]
 
 const exampleLinks = [
@@ -551,9 +554,9 @@ const exampleLinks = [
   { "source": 3, "target": 20, "value": Math.floor(Math.random() * 100) },
   { "source": 17, "target": 18, "value": Math.floor(Math.random() * 100) },
   { "source": 22, "target": 5, "value": Math.floor(Math.random() * 100) },
-  { "source": 4, "target": 24, "value": Math.floor(Math.random() * 100) },
+  { "source": 4, "target": 24, "value": Math.floor(Math.random() * 690) },
   { "source": 26, "target": 16, "value": Math.floor(Math.random() * 100) },
-  { "source": 27, "target": 6, "value": Math.floor(Math.random() * 100) },
+  { "source": 27, "target": 6, "value": Math.floor(Math.random() * 140) },
   { "source": 23, "target": 4, "value": Math.floor(Math.random() * 100) },
   { "source": 10, "target": 24, "value": Math.floor(Math.random() * 100) },
   { "source": 17, "target": 16, "value": Math.floor(Math.random() * 100) },
@@ -561,19 +564,19 @@ const exampleLinks = [
   { "source": 12, "target": 16, "value": Math.floor(Math.random() * 300) },
   { "source": 19, "target": 5, "value": Math.floor(Math.random() * 100) },
   { "source": 15, "target": 24, "value": Math.floor(Math.random() * 100) },
-  { "source": 27, "target": 2, "value": Math.floor(Math.random() * 100) },
+  { "source": 27, "target": 2, "value": Math.floor(Math.random() * 300) },
   { "source": 26, "target": 28, "value": Math.floor(Math.random() * 100) },
   { "source": 22, "target": 24, "value": Math.floor(Math.random() * 100) },
-  { "source": 3, "target": 18, "value": Math.floor(Math.random() * 100) },
+  { "source": 3, "target": 18, "value": Math.floor(Math.random() * 800) },
   { "source": 18, "target": 5, "value": Math.floor(Math.random() * 100) },
   { "source": 25, "target": 28, "value": Math.floor(Math.random() * 100) },
-  { "source": 12, "target": 1, "value": Math.floor(Math.random() * 100) },
+  { "source": 12, "target": 1, "value": Math.floor(Math.random() * 900) },
   { "source": 28, "target": 21, "value": Math.floor(Math.random() * 100) },
   { "source": 9, "target": 16, "value": Math.floor(Math.random() * 190) },
   { "source": 14, "target": 23, "value": Math.floor(Math.random() * 100) },
   { "source": 6, "target": 1, "value": Math.floor(Math.random() * 100) },
   { "source": 9, "target": 15, "value": Math.floor(Math.random() * 100) },
-  { "source": 16, "target": 24, "value": Math.floor(Math.random() * 100) },
+  { "source": 16, "target": 24, "value": Math.floor(Math.random() * 110) },
   { "source": 22, "target": 28, "value": Math.floor(Math.random() * 100) },
   { "source": 8, "target": 21, "value": Math.floor(Math.random() * 100) },
   { "source": 22, "target": 7, "value": Math.floor(Math.random() * 100) },
@@ -582,37 +585,17 @@ const exampleLinks = [
   { "source": 1, "target": 21, "value": Math.floor(Math.random() * 100) },
   { "source": 1, "target": 24, "value": Math.floor(Math.random() * 350) },
   { "source": 17, "target": 1, "value": Math.floor(Math.random() * 100) },
+  { "source": Math.ceil(Math.random() * 28), "target": Math.ceil(Math.random() * 28), "value": Math.floor(Math.random() * 290) },
+  { "source": Math.ceil(Math.random() * 28), "target": Math.ceil(Math.random() * 28), "value": Math.floor(Math.random() * 100) },
+  { "source": Math.ceil(Math.random() * 28), "target": Math.ceil(Math.random() * 28), "value": Math.floor(Math.random() * 320) },
+  { "source": Math.ceil(Math.random() * 28), "target": Math.ceil(Math.random() * 28), "value": Math.floor(Math.random() * 100) },
+  { "source": Math.ceil(Math.random() * 28), "target": Math.ceil(Math.random() * 28), "value": Math.floor(Math.random() * 150) },
+  { "source": Math.ceil(Math.random() * 28), "target": Math.ceil(Math.random() * 28), "value": Math.floor(Math.random() * 100) },
+  { "source": Math.ceil(Math.random() * 28), "target": Math.ceil(Math.random() * 28), "value": Math.floor(Math.random() * 470) },
   { "source": Math.ceil(Math.random() * 28), "target": Math.ceil(Math.random() * 28), "value": Math.floor(Math.random() * 100) },
   { "source": Math.ceil(Math.random() * 28), "target": Math.ceil(Math.random() * 28), "value": Math.floor(Math.random() * 100) },
-  { "source": Math.ceil(Math.random() * 28), "target": Math.ceil(Math.random() * 28), "value": Math.floor(Math.random() * 100) },
-  { "source": Math.ceil(Math.random() * 28), "target": Math.ceil(Math.random() * 28), "value": Math.floor(Math.random() * 100) },
-  { "source": Math.ceil(Math.random() * 28), "target": Math.ceil(Math.random() * 28), "value": Math.floor(Math.random() * 100) },
-  { "source": Math.ceil(Math.random() * 28), "target": Math.ceil(Math.random() * 28), "value": Math.floor(Math.random() * 100) },
-  { "source": Math.ceil(Math.random() * 28), "target": Math.ceil(Math.random() * 28), "value": Math.floor(Math.random() * 100) },
-  { "source": Math.ceil(Math.random() * 28), "target": Math.ceil(Math.random() * 28), "value": Math.floor(Math.random() * 100) },
-  { "source": Math.ceil(Math.random() * 28), "target": Math.ceil(Math.random() * 28), "value": Math.floor(Math.random() * 100) },
-  { "source": Math.ceil(Math.random() * 28), "target": Math.ceil(Math.random() * 28), "value": Math.floor(Math.random() * 100) }
+  { "source": Math.ceil(Math.random() * 28), "target": Math.ceil(Math.random() * 28), "value": Math.floor(Math.random() * 500) }
 ]
-
-// [ 'Sandy River Farms', 'Schulte Farms', 5 ],
-//       [ 'AA Farms-Mark Anderson', 'Schulte Farms', 5 ],
-//       [ 'Balloun Farms', 'Schulte Farms', 5 ],
-//       [ 'Balloun Farms', 'Melnore Patsy and Scott Rodden', 5 ],
-//       [ 'Balloun Farms', 'Newpem LLC/H Pemberton', 5 ],
-//       [ 'C&H Farms', 'Schulte Farms', 5 ],
-//       [ 'C&H Farms', 'Melnore Patsy and Scott Rodden', 5 ],
-//       [ 'C&H Farms', 'Newpem LLC/H Pemberton', 5 ],
-//       [ 'Kevin Walters Farm', 'Schulte Farms', 5 ],
-//       [ 'Nathan Hill', 'Schulte Farms', 5 ],
-//       [ 'Price Farms', 'Schulte Farms', 5 ],
-//       [ 'Price Farms 2', 'Schulte Farms', 5 ],
-//       [ 'Ronald Hunter', 'Schulte Farms', 5 ],
-//       [ 'Schulte Farms', 'McCune - Boar Power', 5 ],
-//       [ 'Schulte Farms', 'McCune - M6 Tunnel Barn East', 5 ],
-//       [ 'Schulte Farms', 'Ring Valley Site / Ryken Farms', 5 ],
-//       [ 'Melnore Patsy and Scott Rodden', 'Hewer North Site', 5 ],
-//       [ 'Melnore Patsy and Scott Rodden', 'McCune - M6 Tunnel Barn East', 5 ],
-//       [ 'Newpem LLC/H Pemberton', 'Adel Pork LLC', 5 ],
 
 biHiSankey
   .nodes(exampleNodes)
